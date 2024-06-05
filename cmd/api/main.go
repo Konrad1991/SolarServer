@@ -7,9 +7,16 @@ import (
 )
 
 func main() {
-
-  scandir.Test()
-
+  head := &scandir.Tree{
+    Name:  "/home/konrad/Documents/ETR",
+    Files: nil,
+    Nexts:  nil,
+    Previous: nil,
+  }
+  scandir.Scan(head, "", "/home/konrad/Documents/ETR")
+  fmt.Println("\n")
+  scandir.Print("", head)
+  return;
 	server := server.NewServer()
 
 	err := server.ListenAndServe()
