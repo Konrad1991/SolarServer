@@ -5,12 +5,14 @@ import (
   "os"
   "log"
   "time"
+  "path/filepath"
 )
 
 type File struct {
   FileName string
   Size int64
   Date time.Time
+  Extension string
 }
 
 type Tree struct {
@@ -44,6 +46,7 @@ func Scan(current *Tree, indent string, path string)  {
         FileName: e.Name(),
         Size: fileInfo.Size(),
         Date: fileInfo.ModTime(),
+        Extension: filepath.Ext(e.Name()),
       }
       current.Files = append(current.Files, *newFile)
       fmt.Println(indent + e.Name())
