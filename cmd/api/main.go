@@ -2,10 +2,13 @@ package main
 
 import (
 	"SolarServer/internal/server"
+	"SolarServer/internal/scandir"
 	"fmt"
 )
 
 func main() {
+
+  scandir.Test()
 
 	server := server.NewServer()
 
