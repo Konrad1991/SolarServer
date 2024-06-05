@@ -22,6 +22,10 @@ type Tree struct {
   Nexts []*Tree
 }
 
+// TODO: 
+// size method for Tree
+// update ree due to changes 
+
 func Scan(current *Tree, indent string, path string)  {
   fmt.Println(indent + path)
   entries, err := os.ReadDir(path)
