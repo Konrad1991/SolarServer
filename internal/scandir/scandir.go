@@ -7,7 +7,6 @@ import (
   "log"
   "time"
   "path/filepath"
-  "strings"
 )
 
 type File struct {
@@ -26,7 +25,7 @@ type Tree struct {
 
 // TODO: 
 // size method for Tree
-// update ree due to changes 
+// update Tree due to changes 
 
 func Scan(current *Tree, indent string, path string)  {
   entries, err := os.ReadDir(path)
@@ -71,42 +70,6 @@ func Print(indent string, head *Tree) {
   }
 }
 
-<<<<<<< HEAD
-func TreeToJson(head *Tree, jsonString* strings.Builder) {
-jsonString.WriteString("{\n")
-PrintJT(head, jsonString)
-jsonString.WriteString("}")
-}
-
-func PrintJT(Tree *Tree, jsonString* strings.Builder) {
-  jsonString.WriteString(wsiq(Tree.Name) +  ":\n")
-  var ArrayString strings.Builder
-  for i, s := range Tree.Files {
-    if i < len(Tree.Files) - 1 {
-      ArrayString.WriteString(wsiq(s.FileName) + ",\n")
-    } else {
-      ArrayString.WriteString(wsiq(s.FileName) + "\n")
-    }
-  } 
-  s := ArrayString.String()
-  jsonString.WriteString(wsicb("\"files\":" + wsisb(s)))
-}
-
-func wsiq(s string) string{
-  s = "\"" + s+ "\""
-  return s
-}
-
-func wsicb(s string) string{
-  s = "{" + s+ "}"
-  return s
-}
-
-func wsisb(s string) string{
-  s = "[" + s+ "]"
-  return s
-}
-=======
 func wsiq(s *string) string {
   *s = "\"" + *s + "\""
   return *s
@@ -149,4 +112,51 @@ func TreeToJson(indent string, head *Tree,
   toJson(indent, head, jsonString)
   return "{" + jsonString.String()
 }
->>>>>>> dc0b61cf450674f79f216eac8b0947d0a3a0f9a0
+
+
+
+
+
+
+// Tobis Code
+func TreeToJsonFile(head *Tree, jsonString* strings.Builder) {
+jsonString.WriteString("{\n")
+PrintJT(head, jsonString)
+jsonString.WriteString("}")
+}
+
+func PrintJT(Tree *Tree, jsonString* strings.Builder) {
+  jsonString.WriteString(wsiqt(Tree.Name) +  ":\n")
+  var ArrayString strings.Builder
+  for i, s := range Tree.Files {
+    if i < len(Tree.Files) - 1 {
+      ArrayString.WriteString(wsiqt(s.FileName) + ",\n")
+    } else {
+      ArrayString.WriteString(wsiqt(s.FileName) + "\n")
+    }
+  } 
+  // s := ArrayString.String()
+  // s_c := "\"files\":" + wsisb(s) // hier aufgehört
+
+  // for i, s := range Tree.Nexts {
+  //
+  // }
+
+  // jsonString.WriteString(wsicb())
+}
+
+func wsiqt(s string) string{
+  s = "\"" + s+ "\""
+  return s
+}
+
+func wsicb(s string) string{
+  s = "{" + s+ "}"
+  return s
+}
+
+func wsisb(s string) string{
+  s = "[" + s+ "]"
+  return s
+}
+
