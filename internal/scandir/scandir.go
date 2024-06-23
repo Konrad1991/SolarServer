@@ -2,6 +2,7 @@ package scandir
 
 import (
   "fmt"
+  "strings"
   "os"
   "log"
   "time"
@@ -28,7 +29,6 @@ type Tree struct {
 // update ree due to changes 
 
 func Scan(current *Tree, indent string, path string)  {
-  fmt.Println(indent + path)
   entries, err := os.ReadDir(path)
   if err != nil {
     log.Fatal(err)
@@ -54,7 +54,6 @@ func Scan(current *Tree, indent string, path string)  {
         Extension: filepath.Ext(e.Name()),
       }
       current.Files = append(current.Files, *newFile)
-      fmt.Println(indent + e.Name())
     }
   }
 }
@@ -72,6 +71,7 @@ func Print(indent string, head *Tree) {
   }
 }
 
+<<<<<<< HEAD
 func TreeToJson(head *Tree, jsonString* strings.Builder) {
 jsonString.WriteString("{\n")
 PrintJT(head, jsonString)
@@ -106,3 +106,47 @@ func wsisb(s string) string{
   s = "[" + s+ "]"
   return s
 }
+=======
+func wsiq(s *string) string {
+  *s = "\"" + *s + "\""
+  return *s
+}
+
+func createFileDict(indent string, head* Tree, jsonString* strings.Builder) {
+  jsonString.WriteString(indent + "\"files\"" + ":" + "[")
+  for i, s := range head.Files {
+    jsonString.WriteString(  wsiq(&s.FileName))
+    if i < (len(head.Files) - 1) {
+      jsonString.WriteString(",")
+    }
+  }
+  jsonString.WriteString("]\n")
+}
+
+func toJson(indent string, head *Tree, jsonString* strings.Builder) {
+  indent = indent + " "
+  jsonString.WriteString(wsiq(&head.Name) + ":" + "{\n")
+
+  createFileDict(indent, head, jsonString)
+  if len(head.Nexts) == 0 {
+    jsonString.WriteString(indent + "}\n")
+  } else {
+    jsonString.WriteString(indent + ",\n")
+  }
+
+  for i:= 0; i < len(head.Nexts); i++ {
+    toJson(indent, head.Nexts[i], jsonString)
+    if (i < (len(head.Nexts) - 1)) && (len(head.Nexts) > 1) {
+      jsonString.WriteString("},\n")
+    } else {
+      jsonString.WriteString("}\n")
+    }
+  }
+}
+
+func TreeToJson(indent string, head *Tree,
+  jsonString* strings.Builder) string {
+  toJson(indent, head, jsonString)
+  return "{" + jsonString.String()
+}
+>>>>>>> dc0b61cf450674f79f216eac8b0947d0a3a0f9a0
