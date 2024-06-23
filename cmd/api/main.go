@@ -4,18 +4,22 @@ import (
 	"SolarServer/internal/server"
 	"SolarServer/internal/scandir"
 	"fmt"
+  "strings"
 )
 
 func main() {
   head := &scandir.Tree{
-    Name:  "/home/konrad/Documents/ETR",
+    Name:  "/home/konrad/Documents/SolarServer",
     Files: nil,
     Nexts:  nil,
     Previous: nil,
   }
-  scandir.Scan(head, "", "/home/konrad/Documents/ETR")
+  scandir.Scan(head, "", head.Name)
   fmt.Println("\n")
-  scandir.Print("", head)
+  //scandir.Print("", head)
+  var s strings.Builder
+  scandir.TreeToJson(head, &s)
+  fmt.Println(s.String())
   return;
 	server := server.NewServer()
 

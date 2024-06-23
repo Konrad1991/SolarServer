@@ -6,6 +6,7 @@ import (
   "log"
   "time"
   "path/filepath"
+  "strings"
 )
 
 type File struct {
@@ -69,4 +70,39 @@ func Print(indent string, head *Tree) {
   for i:= 0; i < len(head.Nexts); i++ {
     Print(indent, head.Nexts[i])
   }
+}
+
+func TreeToJson(head *Tree, jsonString* strings.Builder) {
+jsonString.WriteString("{\n")
+PrintJT(head, jsonString)
+jsonString.WriteString("}")
+}
+
+func PrintJT(Tree *Tree, jsonString* strings.Builder) {
+  jsonString.WriteString(wsiq(Tree.Name) +  ":\n")
+  var ArrayString strings.Builder
+  for i, s := range Tree.Files {
+    if i < len(Tree.Files) - 1 {
+      ArrayString.WriteString(wsiq(s.FileName) + ",\n")
+    } else {
+      ArrayString.WriteString(wsiq(s.FileName) + "\n")
+    }
+  } 
+  s := ArrayString.String()
+  jsonString.WriteString(wsicb("\"files\":" + wsisb(s)))
+}
+
+func wsiq(s string) string{
+  s = "\"" + s+ "\""
+  return s
+}
+
+func wsicb(s string) string{
+  s = "{" + s+ "}"
+  return s
+}
+
+func wsisb(s string) string{
+  s = "[" + s+ "]"
+  return s
 }
