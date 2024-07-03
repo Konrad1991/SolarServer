@@ -80,6 +80,7 @@ func wsip(s *string, name*string) string {
   return *s
 }
 
+// TODO: nameFolder + files + xy in order to get unique name
 func createFileDict(indent string, head* Tree, jsonString* strings.Builder, nameFolder* string) {
   jsonString.WriteString(indent + "\"" + *nameFolder + "files" + "\"" + ":" + "[")
   for i, s := range head.Files {
