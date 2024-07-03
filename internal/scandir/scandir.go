@@ -75,6 +75,11 @@ func wsiq(s *string) string {
   return *s
 }
 
+func wsip(s *string, name*string) string {
+  *s = "\"" + *name + "\":" +  "{" + *s + "}"
+  return *s
+}
+
 func createFileDict(indent string, head* Tree, jsonString* strings.Builder) {
   jsonString.WriteString(indent + "\"files\"" + ":" + "[")
   for i, s := range head.Files {
@@ -86,39 +91,28 @@ func createFileDict(indent string, head* Tree, jsonString* strings.Builder) {
   jsonString.WriteString("]\n")
 }
 
-func addEndParenthesis(i int, head* Tree, jsonString* strings.Builder) {
-    if (i < (len(head.Nexts) - 1)) && (len(head.Nexts) > 1) {
-      jsonString.WriteString("},\n")
-    } else {
-      jsonString.WriteString("}\n")
-    }
-}
-
-func addEndForDirect(indent string, head* Tree, jsonString* strings.Builder) {
-  if len(head.Nexts) == 0 {
-    jsonString.WriteString(indent + "}\n")
-  } else {
-    jsonString.WriteString(indent + ",\n")
-  }
-}
-
 func toJson(indent string, head *Tree, jsonString* strings.Builder) {
+  var sb strings.Builder;
   indent = indent + " "
-  jsonString.WriteString(wsiq(&head.Name) + ":" + "{\n")
-
-  createFileDict(indent, head, jsonString)
-  addEndForDirect(indent, head, jsonString);
-
-  for i:= 0; i < len(head.Nexts); i++ {
-    toJson(indent, head.Nexts[i], jsonString)
-    addEndParenthesis(i, head, jsonString);
+  createFileDict(indent, head, &sb)
+  if(len(head.Nexts) >= 1) {
+      sb.WriteString(",")
   }
+  for i:= 0; i < len(head.Nexts); i++ {
+    toJson(indent, head.Nexts[i], &sb)
+    if i < (len(head.Nexts) - 1) {
+      sb.WriteString(",")
+    }
+  }
+  str := sb.String()
+  res := wsip(&str, &head.Name);
+  jsonString.WriteString(res);
 }
 
 func TreeToJson(indent string, head *Tree,
   jsonString* strings.Builder) string {
   toJson(indent, head, jsonString)
-  return "{" + jsonString.String()
+  return "{" + jsonString.String() + "}"
 }
 
 

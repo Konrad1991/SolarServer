@@ -10,13 +10,13 @@ import (
 
 func main() {
   head := &scandir.Tree{
-    Name:  "/home/konrad/Documents/TestingTree",
+    Name:  "/home/konrad/Documents/SolarServer/internal/",
     Files: nil,
     Nexts:  nil,
     Previous: nil,
   }
   scandir.Scan(head, "", head.Name)
-  // scandir.Print("", head)
+   scandir.Print("", head)
 
   var sb strings.Builder
   res := scandir.TreeToJson("", head, &sb)
