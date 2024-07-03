@@ -80,8 +80,8 @@ func wsip(s *string, name*string) string {
   return *s
 }
 
-func createFileDict(indent string, head* Tree, jsonString* strings.Builder) {
-  jsonString.WriteString(indent + "\"files\"" + ":" + "[")
+func createFileDict(indent string, head* Tree, jsonString* strings.Builder, nameFolder* string) {
+  jsonString.WriteString(indent + *nameFolder + "\"files\"" + ":" + "[")
   for i, s := range head.Files {
     jsonString.WriteString(  wsiq(&s.FileName))
     if i < (len(head.Files) - 1) {
@@ -94,7 +94,7 @@ func createFileDict(indent string, head* Tree, jsonString* strings.Builder) {
 func toJson(indent string, head *Tree, jsonString* strings.Builder) {
   var sb strings.Builder;
   indent = indent + " "
-  createFileDict(indent, head, &sb)
+  createFileDict(indent, head, &sb, &head.Name)
   if(len(head.Nexts) >= 1) {
       sb.WriteString(",")
   }

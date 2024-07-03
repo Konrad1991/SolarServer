@@ -10,7 +10,7 @@ import (
 
 func main() {
   head := &scandir.Tree{
-    Name:  "/home/konrad/Documents/SolarServer/internal/",
+    Name:  "/home/konrad/Documents/ast2ast",
     Files: nil,
     Nexts:  nil,
     Previous: nil,
